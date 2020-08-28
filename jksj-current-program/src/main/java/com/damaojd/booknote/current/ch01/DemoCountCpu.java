@@ -3,7 +3,7 @@ package com.damaojd.booknote.current.ch01;
 public class DemoCountCpu
 {
     
-    private int i = 0;
+    private long i = 0;
     
     public void add10K()
     {
@@ -15,24 +15,8 @@ public class DemoCountCpu
         }
     }
     
-    public int getI()
+    public static long calc() throws InterruptedException
     {
-        return i;
-    }
-    
-    public void setI(int i)
-    {
-        this.i = i;
-    }
-    
-    public static void main(String[] args) throws InterruptedException
-    {
-//        DemoCountCpu c = new DemoCountCpu();
-//        c.add10K();
-//        
-        // 10000
-//        System.out.println(c.getI());
-        
         final DemoCountCpu test = new DemoCountCpu();
         Thread th1 = new Thread(() -> {
             test.add10K();
@@ -46,9 +30,20 @@ public class DemoCountCpu
         // 等待两个线程执行结束
         th1.join();
         th2.join();
+        return test.i;
+    }
+    
+    public static void main(String[] args) throws InterruptedException
+    {
+//        DemoCountCpu c = new DemoCountCpu();
+//        c.add10K();
+//        
+        // 10000
+//        System.out.println(c.i);
+        
         // 16416 18833 远远小于20000. 原因cpu是按照指令的原子操作执行。
         
-        System.out.println(test.getI());
+        System.out.println(calc());
         
         /** note **/
 //        指令 1：首先，需要把变量 count 从内存加载到 CPU 的寄存器；
