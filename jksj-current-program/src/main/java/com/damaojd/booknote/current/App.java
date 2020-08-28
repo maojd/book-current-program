@@ -1,4 +1,4 @@
-package com.damaojd.booknote.jksj_current_program;
+package com.damaojd.booknote.current;
 
 /**
  * Hello world!
