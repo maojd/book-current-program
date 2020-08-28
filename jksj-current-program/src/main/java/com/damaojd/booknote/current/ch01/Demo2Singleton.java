@@ -75,5 +75,8 @@ public class Demo2Singleton
 //        thread1 判断 == null,   分配一块地址 M, 还没有执行初始化给实例。  
 //        cpu切换到了 thread2, thread2 判断 == null? 结果不为null,直接return . 但是拿到了 未初始化的实例。 程序依然会报空指针 
 //        Singletone.png
+        
+//        https://www.cnblogs.com/moxiaotao/p/9945235.html
+//        注意：volatile阻止的不是singleton = new Singleton()这句话内部[1-2-3]的指令重排，而是保证了在一个写操作（[1-2-3]）完成之前，不会调用读操作（if (instance == null)）。
     }
 }
