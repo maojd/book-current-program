@@ -15,6 +15,15 @@ public class Ch19JksjCompareOrderDemo
         d.checkAll();
 //        checkAll启动了两个线程。 执行了 barrier.await两个线程相互等待。 满足条件以后（查询到了订单和运单）,会自动触发 barrier的回调
         
+//        CyclicBarrier 的回调函数使用了一个固定大小为 1 的线程池，是否合理？我觉得是合理的，可以从以下两个方面来分析。
+        
+//        第一个是线程池大小是 1，只有 1 个线程，主要原因是 check() 方法的耗时比 getPOrders() 和 getDOrders() 都要短，
+//        所以没必要用多个线程，同时单线程能保证访问的数据不存在并发问题。
+        
+//        第二个是使用了线程池，如果不使用，直接在回调函数里调用 check() 方法是否可以呢？绝对不可以。为什么呢？这个要分析一下回调函数和唤醒等待线程之间的关系。
+//        下面是 CyclicBarrier 相关的源码，通过源码你会发现 CyclicBarrier 是同步调用回调函数之后才唤醒等待的线程，
+//        如果我们在回调函数里直接调用 check() 方法，那就意味着在执行 check() 的时候，是不能同时执行 getPOrders() 和 getDOrders() 的，
+//        这样就起不到提升性能的作用。
     }
     
     // 订单队列
