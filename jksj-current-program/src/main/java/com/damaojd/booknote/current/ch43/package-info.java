@@ -7,3 +7,5 @@
  * @since version 初始于版本
  */
 package com.damaojd.booknote.current.ch43;
+
+//STMTxn里面有main方法。模拟版本发生变化
