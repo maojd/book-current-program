@@ -73,28 +73,37 @@ public class STMTxn<T> implements Txn
 //        System.out.println(stm + " " + JSON.toJSONString(stm));
 //        stm = new STMTxn();
 //        System.out.println(stm + " " + JSON.toJSONString(stm));
-        STMTxn stm = new STMTxn();
         
-        //继续。 如果map里面 obj.xxx变化。
-        Object obj1 = new Object();
-        Object obj2 = new Object();
-        Object obj3 = new Object();
-        Map<Object, STMTxn> map = new HashMap<>();
-        map.put(obj1, stm);
-        map.put(obj2, stm);
-        map.put(obj3, stm);
-        map.forEach((k, v) -> {
-            System.out.println(k + "---" + v);
-            Object obj4 = new Object();
-            k = obj4;
-        });
+        // 模拟 inTxnMap里面的版本号变化start
+        TxnRef<Integer> balance = new TxnRef<Integer>(500);
+        System.out.println(" balance 500   =" + balance);
+        System.out.println("balance.curRef =" + balance.curRef);
         
-        System.out.println("====");
-        map.forEach((k, v) -> {
-            System.out.println(k + "---" + v);
-            Object obj4 = new Object();
-            k = obj4;
+        Map<TxnRef, VersionedRef> inTxnMap = new HashMap<TxnRef, VersionedRef>();
+        inTxnMap.put(balance, balance.curRef);
+        
+        System.out.println(inTxnMap.get(balance));
+        
+        System.out.println("forEach======");
+        inTxnMap.forEach((k, v) -> {
+            System.out.println("k " + k + ",   v " + v);
+            k.curRef = new VersionedRef<>(v, 333);// 新的版本号
         });
+        System.out.println("forEach end======");
+        
+        for(Map.Entry<TxnRef, VersionedRef> entry : inTxnMap.entrySet())
+        {
+            VersionedRef curRef = entry.getKey().curRef;
+            VersionedRef readRef = entry.getValue();
+            // 通过版本号来验证数据是否发生过变化
+            System.out.println(curRef.version);// 333
+            System.out.println(readRef.version);// 0
+            if(curRef.version != readRef.version)
+            {
+                break;
+            }
+        }
+        // 模拟 map里面的版本号变化end
     }
     
 }
