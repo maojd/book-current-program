@@ -32,5 +32,11 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.60</version>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>org.multiverse</groupId>
+			<artifactId>multiverse</artifactId>
+			<version>0.7.0</version>
+		</dependency> -->
 	</dependencies>
 </project>
