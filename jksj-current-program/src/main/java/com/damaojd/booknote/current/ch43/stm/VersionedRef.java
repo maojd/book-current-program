@@ -1,10 +1,10 @@
 package com.damaojd.booknote.current.ch43.stm;
 
-public class VersionedRef<T>
+public final class VersionedRef<T>
 {
-    T value;
+    final T value;
     
-    long version;
+    final long version;
     
     public VersionedRef(T value, long version)
     {
