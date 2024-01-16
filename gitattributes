@@ -1,0 +1,2 @@
+*.{java,class} binary  
+*.{txt,md,json} text
